@@ -6,6 +6,7 @@ public class CommandProcessor {
     private Manager manager;
     private Scanner scanner;
     private float amount;
+    private int count ;
     private int buyPrice;
     private int sellPrice;
 
@@ -34,23 +35,54 @@ public class CommandProcessor {
     }
 
 
+    public void processAddCountableGood(String[] splitInput){
+
+
+        if (manager.goods.size()!= 0) {
+            for (Good good : manager.goods) {
+
+                if (good.getName().equals(splitInput[3])) {
+
+                    int finalCount = good.getCount() + count;
+                    good.setCount(finalCount);
+                    System.out.println("countable good" + splitInput[3] + "added. Total inventory : " + good.getCount() + "kg");
+                } else {
+                    manager.addCountableGood(splitInput[3], "Countable", buyPrice, sellPrice, count, 0);
+                    System.out.println("Countable good" + splitInput[3] + "added. Total inventory : " + count + "kg");
+                    break;
+                }
+            }
+        }else {
+            manager.addCountableGood(splitInput[3], "Countable", buyPrice, sellPrice, count, 0);
+            System.out.println("countable good" + splitInput[3] + "added. Total inventory : " + count + "kg");
+        }
+
+    }
+
 
     public void run(){
         String input;
-        String firstInput;
         System.out.println("Enter Your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("exit")){
-            firstInput = input;
             if (input.startsWith("add uncountable good")){
                 System.out.println("Enter amount :");
                 amount = scanner.nextFloat();
                 System.out.println("Enter sell and buy price :");
                 sellPrice = scanner.nextInt();
                 buyPrice = scanner.nextInt();
-                processAddUncountableGood(firstInput.split("\\s"));
+                processAddUncountableGood(input.split("\\s"));
+            }else if (input.startsWith("add countable good")){
+                System.out.println("Enter count :");
+                count = scanner.nextInt();
+                System.out.println("Enter sell and buy price :");
+                sellPrice = scanner.nextInt();
+                buyPrice = scanner.nextInt();
+                processAddCountableGood(input.split("\\s"));
             } else {
                 System.out.println("Please Enter Correctly");
+                processAddUncountableGood(input.split("\\s"));
             }
+
 
         }
     }
