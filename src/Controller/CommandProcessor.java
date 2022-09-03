@@ -44,6 +44,8 @@ public class CommandProcessor {
                 if (good.getName().equals(splitInput[3])) {
 
                     int finalCount = good.getCount() + count;
+                    good.setBuyPrice(buyPrice);
+                    good.setSellPrice(sellPrice);
                     good.setCount(finalCount);
                     System.out.println("countable good" + splitInput[3] + "added. Total inventory : " + good.getCount() + "kg");
                 } else {
@@ -78,9 +80,10 @@ public class CommandProcessor {
                 sellPrice = scanner.nextInt();
                 buyPrice = scanner.nextInt();
                 processAddCountableGood(input.split("\\s"));
-            } else {
-                System.out.println("Please Enter Correctly");
-                processAddUncountableGood(input.split("\\s"));
+            } else if (input.startsWith("new order from")) {
+
+            } else  {
+                System.err.println("Please Enter Correctly");
             }
 
 
